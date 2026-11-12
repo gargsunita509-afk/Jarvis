@@ -1,0 +1,187 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net - Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation helpers
+    function isValidUserProfile(data, userId) {
+      return data.userId is string && data.userId == userId &&
+        data.email is string && data.email.size() <= 256 &&
+        (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 128)) &&
+        (!('preferredName' in data) || (data.preferredName is string && data.preferredName.size() <= 64)) &&
+        (!('assistantName' in data) || (data.assistantName is string && data.assistantName.size() <= 64));
+    }
+
+    function isValidPreferences(data, userId) {
+      return data.userId is string && data.userId == userId &&
+        (!('theme' in data) || (data.theme is string && data.theme.size() <= 32)) &&
+        (!('reactorColor' in data) || (data.reactorColor is string && data.reactorColor.size() <= 32)) &&
+        (!('reactorStyle' in data) || (data.reactorStyle is string && data.reactorStyle.size() <= 32)) &&
+        (!('voiceName' in data) || (data.voiceName is string && data.voiceName.size() <= 64)) &&
+        (!('language' in data) || (data.language is string && data.language.size() <= 32)) &&
+        (!('personality' in data) || (data.personality is string && data.personality.size() <= 32)) &&
+        (!('autoMemoryEnabled' in data) || data.autoMemoryEnabled is bool) &&
+        (!('cloudSyncEnabled' in data) || data.cloudSyncEnabled is bool);
+    }
+
+    function isValidMemory(data, userId) {
+      return data.id is string && isValidId(data.id) &&
+        data.userId is string && data.userId == userId &&
+        data.category is string && data.category.size() <= 64 &&
+        data.title is string && data.title.size() <= 128 &&
+        data.content is string && data.content.size() <= 4096 &&
+        (!('isPinned' in data) || data.isPinned is bool) &&
+        (!('source' in data) || (data.source is string && data.source.size() <= 64));
+    }
+
+    function isValidConversation(data, userId) {
+      return data.id is string && isValidId(data.id) &&
+        data.userId is string && data.userId == userId &&
+        data.title is string && data.title.size() <= 128 &&
+        (!('messageCount' in data) || data.messageCount is number) &&
+        (!('lastMessageSnippet' in data) || (data.lastMessageSnippet is string && data.lastMessageSnippet.size() <= 512));
+    }
+
+    function isValidChatMessage(data, userId, convId) {
+      return data.id is string && isValidId(data.id) &&
+        data.userId is string && data.userId == userId &&
+        (!('conversationId' in data) || data.conversationId == convId) &&
+        data.role is string && (data.role == 'user' || data.role == 'model' || data.role == 'system') &&
+        data.text is string && data.text.size() <= 10000;
+    }
+
+    function isValidCustomCommand(data, userId) {
+      return data.id is string && isValidId(data.id) &&
+        data.userId is string && data.userId == userId &&
+        data.name is string && data.name.size() <= 128 &&
+        data.triggerPhrase is string && data.triggerPhrase.size() <= 256 &&
+        data.actionIdentifier is string && data.actionIdentifier.size() <= 64 &&
+        (!('targetDevice' in data) || (data.targetDevice is string && data.targetDevice.size() <= 64)) &&
+        (!('description' in data) || (data.description is string && data.description.size() <= 512)) &&
+        (!('isEnabled' in data) || data.isEnabled is bool);
+    }
+
+    function isValidAutomation(data, userId) {
+      return data.id is string && isValidId(data.id) &&
+        data.userId is string && data.userId == userId &&
+        data.name is string && data.name.size() <= 128 &&
+        data.triggerType is string && data.triggerType.size() <= 64 &&
+        data.actionType is string && data.actionType.size() <= 64 &&
+        (!('triggerConfig' in data) || (data.triggerConfig is string && data.triggerConfig.size() <= 512)) &&
+        (!('actionPayload' in data) || (data.actionPayload is string && data.actionPayload.size() <= 1024)) &&
+        (!('isEnabled' in data) || data.isEnabled is bool);
+    }
+
+    function isValidDevice(data, userId) {
+      return data.id is string && isValidId(data.id) &&
+        data.userId is string && data.userId == userId &&
+        data.deviceName is string && data.deviceName.size() <= 128 &&
+        data.deviceType is string && data.deviceType.size() <= 64 &&
+        data.status is string && data.status.size() <= 32;
+    }
+
+    // Match root user document and all subcollections
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create, update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+
+      // User Profile subcollection
+      match /profile/{profileId} {
+        allow get: if isOwner(userId) && isValidId(profileId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(profileId) && isValidUserProfile(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(profileId) && isValidUserProfile(incoming(), userId) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(profileId);
+      }
+
+      // User Preferences subcollection
+      match /preferences/{prefId} {
+        allow get: if isOwner(userId) && isValidId(prefId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(prefId) && isValidPreferences(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(prefId) && isValidPreferences(incoming(), userId) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(prefId);
+      }
+
+      // Long term and context memories
+      match /memories/{memoryId} {
+        allow get: if isOwner(userId) && isValidId(memoryId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(memoryId) && isValidMemory(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(memoryId) && isValidMemory(incoming(), userId) && incoming().userId == existing().userId && incoming().id == existing().id;
+        allow delete: if isOwner(userId) && isValidId(memoryId);
+      }
+
+      // Conversations
+      match /conversations/{conversationId} {
+        allow get: if isOwner(userId) && isValidId(conversationId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(conversationId) && isValidConversation(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(conversationId) && isValidConversation(incoming(), userId) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(conversationId);
+
+        // Messages within a conversation
+        match /messages/{messageId} {
+          allow get: if isOwner(userId) && isValidId(conversationId) && isValidId(messageId);
+          allow list: if isOwner(userId) && isValidId(conversationId);
+          allow create: if isOwner(userId) && isValidId(conversationId) && isValidId(messageId) && isValidChatMessage(incoming(), userId, conversationId);
+          allow update: if isOwner(userId) && isValidId(conversationId) && isValidId(messageId) && isValidChatMessage(incoming(), userId, conversationId) && incoming().userId == existing().userId;
+          allow delete: if isOwner(userId) && isValidId(conversationId) && isValidId(messageId);
+        }
+      }
+
+      // Custom Commands
+      match /customCommands/{commandId} {
+        allow get: if isOwner(userId) && isValidId(commandId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(commandId) && isValidCustomCommand(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(commandId) && isValidCustomCommand(incoming(), userId) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(commandId);
+      }
+
+      // Automations
+      match /automations/{automationId} {
+        allow get: if isOwner(userId) && isValidId(automationId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(automationId) && isValidAutomation(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(automationId) && isValidAutomation(incoming(), userId) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(automationId);
+      }
+
+      // Devices
+      match /devices/{deviceId} {
+        allow get: if isOwner(userId) && isValidId(deviceId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(deviceId) && isValidDevice(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(deviceId) && isValidDevice(incoming(), userId) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(deviceId);
+      }
+    }
+  }
+}

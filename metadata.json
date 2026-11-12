@@ -1,0 +1,10 @@
+{
+  "name": "JARVIS Personal AI Ecosystem",
+  "description": "Futuristic AI personal assistant web application and PWA with Arc Reactor interface, voice conversations, long-term memory, and companion APK synchronization.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "JARVIS Personal AI Ecosystem",
+  "short_name": "JARVIS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#00f0ff",
+  "description": "Futuristic personal AI assistant web application with Arc Reactor, voice conversations, long-term memory, and companion APK sync.",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

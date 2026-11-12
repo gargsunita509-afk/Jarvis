@@ -1,0 +1,171 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information and identity settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "preferredName": { "type": "string", "maxLength": 64 },
+        "assistantName": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email"]
+    },
+    "UserPreferences": {
+      "title": "UserPreferences",
+      "description": "JARVIS personalization and interface preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "theme": { "type": "string", "maxLength": 32 },
+        "reactorColor": { "type": "string", "maxLength": 32 },
+        "reactorStyle": { "type": "string", "maxLength": 32 },
+        "voiceName": { "type": "string", "maxLength": 64 },
+        "speechRate": { "type": "number" },
+        "speechPitch": { "type": "number" },
+        "language": { "type": "string", "maxLength": 32 },
+        "personality": { "type": "string", "maxLength": 32 },
+        "autoMemoryEnabled": { "type": "boolean" },
+        "cloudSyncEnabled": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "reactorColor", "language"]
+    },
+    "Memory": {
+      "title": "Memory",
+      "description": "Long term or contextual memory record for the user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 128 },
+        "content": { "type": "string", "maxLength": 4096 },
+        "source": { "type": "string", "maxLength": 64 },
+        "isPinned": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "category", "title", "content"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Dialogue session history metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 128 },
+        "messageCount": { "type": "number" },
+        "lastMessageSnippet": { "type": "string", "maxLength": 512 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Individual message in a conversation session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "conversationId": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["user", "model", "system"] },
+        "text": { "type": "string", "maxLength": 10000 },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "role", "text"]
+    },
+    "CustomCommand": {
+      "title": "CustomCommand",
+      "description": "User created voice or shortcut custom command",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "triggerPhrase": { "type": "string", "maxLength": 256 },
+        "description": { "type": "string", "maxLength": 512 },
+        "targetDevice": { "type": "string", "maxLength": 64 },
+        "actionIdentifier": { "type": "string", "maxLength": 64 },
+        "isEnabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "triggerPhrase", "actionIdentifier"]
+    },
+    "Automation": {
+      "title": "Automation",
+      "description": "Scheduled or conditional workflow automation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "triggerType": { "type": "string", "maxLength": 64 },
+        "triggerConfig": { "type": "string", "maxLength": 512 },
+        "actionType": { "type": "string", "maxLength": 64 },
+        "actionPayload": { "type": "string", "maxLength": 1024 },
+        "isEnabled": { "type": "boolean" },
+        "lastRunAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "triggerType", "actionType"]
+    },
+    "Device": {
+      "title": "Device",
+      "description": "Connected ecosystem device pairing record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "deviceName": { "type": "string", "maxLength": 128 },
+        "deviceType": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 32 },
+        "pairingCode": { "type": "string", "maxLength": 16 },
+        "lastSyncAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "deviceName", "deviceType", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/profile/{profileId}": {
+      "schema": "UserProfile",
+      "description": "User profile information"
+    },
+    "/users/{userId}/preferences/{prefId}": {
+      "schema": "UserPreferences",
+      "description": "JARVIS personalization configurations"
+    },
+    "/users/{userId}/memories/{memoryId}": {
+      "schema": "Memory",
+      "description": "Long-term knowledge, preferences, and project memories"
+    },
+    "/users/{userId}/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Conversation sessions"
+    },
+    "/users/{userId}/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Messages belonging to a conversation session"
+    },
+    "/users/{userId}/customCommands/{commandId}": {
+      "schema": "CustomCommand",
+      "description": "User-defined voice and shortcut commands"
+    },
+    "/users/{userId}/automations/{automationId}": {
+      "schema": "Automation",
+      "description": "User-defined automated actions and triggers"
+    },
+    "/users/{userId}/devices/{deviceId}": {
+      "schema": "Device",
+      "description": "Paired ecosystem devices (Android, PC, Smart board)"
+    }
+  }
+}
