@@ -48,7 +48,7 @@ export const InstallPrompt: React.FC = () => {
   if (!showPrompt) return null;
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 max-w-sm p-4 rounded-2xl bg-[#060c1d]/95 border border-cyan-400/60 shadow-[0_0_25px_rgba(0,240,255,0.25)] backdrop-blur-md animate-fade-in font-mono text-xs text-slate-100">
+    <div className="fixed bottom-24 md:bottom-6 left-3 right-3 sm:left-auto sm:right-6 z-40 sm:max-w-sm p-4 rounded-2xl bg-[#060c1d]/95 border border-cyan-400/60 shadow-[0_0_25px_rgba(0,240,255,0.25)] backdrop-blur-md animate-fade-in font-mono text-xs text-slate-100">
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 text-cyan-300 font-bold">
           <Download size={16} className="text-cyan-400" />

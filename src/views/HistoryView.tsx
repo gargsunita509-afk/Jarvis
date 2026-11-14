@@ -37,15 +37,15 @@ export const HistoryView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <History size={14} className="text-cyan-400" />
-            <span>SESSION ARCHIVES // {conversations.length} SAVED</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <History size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">SESSION ARCHIVES // {conversations.length} SAVED</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             Conversation History
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -58,7 +58,7 @@ export const HistoryView: React.FC = () => {
             await startNewConversation();
             setActiveView('conversation');
           }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)]"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] shrink-0"
         >
           <span>Initiate New Session</span>
           <ArrowRight size={14} />

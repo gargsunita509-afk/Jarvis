@@ -63,15 +63,15 @@ export const PersonalizationView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <Sliders size={14} className="text-cyan-400" />
-            <span>CALIBRATION PROTOCOL // LIVE PREVIEW</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <Sliders size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">CALIBRATION PROTOCOL // LIVE PREVIEW</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             Personalization Studio
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -81,24 +81,24 @@ export const PersonalizationView: React.FC = () => {
 
         <button
           onClick={handleApplyChanges}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(0,240,255,0.4)]"
+          className="flex items-center justify-center gap-2 px-6 py-2.5 min-h-[44px] rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(0,240,255,0.4)] shrink-0"
         >
           <Check size={16} />
           <span>Apply Calibration</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-6">
         {/* LEFT COLUMN: LIVE PREVIEW REACTOR */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 rounded-3xl bg-gradient-to-b from-[#050b18] to-[#02050e] border border-cyan-500/30 sticky top-4 shadow-[0_0_40px_rgba(0,240,255,0.06)]">
-          <div className="text-xs font-mono text-cyan-400/70 tracking-wider mb-4 uppercase">
+        <div className="lg:col-span-5 flex flex-col items-center justify-center p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#050b18] to-[#02050e] border border-cyan-500/30 lg:sticky lg:top-4 shadow-[0_0_40px_rgba(0,240,255,0.06)]">
+          <div className="text-xs font-mono text-cyan-400/70 tracking-wider mb-4 uppercase text-center">
             Live Preview // {colorDraft.toUpperCase()} THEME
           </div>
 
           <ArcReactor
             state={previewSpeaking ? 'speaking' : 'standby'}
             colorTheme={colorDraft}
-            size={240}
+            className="w-[min(210px,58vw)] sm:w-[235px]"
             interactive={true}
             onClick={handleTestVoice}
             showStatusLabel={true}
@@ -108,27 +108,27 @@ export const PersonalizationView: React.FC = () => {
             <button
               onClick={handleTestVoice}
               disabled={previewSpeaking}
-              className="px-5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-400/60 text-cyan-200 text-xs font-mono hover:bg-cyan-500/30 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 min-h-[44px] rounded-xl bg-cyan-500/20 border border-cyan-400/60 text-cyan-200 text-xs font-mono hover:bg-cyan-500/30 transition-all flex items-center gap-2"
             >
               <Volume2 size={16} />
               <span>{previewSpeaking ? 'Synthesizing...' : 'Test Cinematic Voice'}</span>
             </button>
             <span className="text-[10px] font-mono text-slate-500">
-              Click to hear audio output with current speed and pitch
+              Tap to hear audio output with current speed and pitch
             </span>
           </div>
         </div>
 
         {/* RIGHT COLUMN: CONFIGURATION CONTROLS */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-5 min-w-0">
           {/* 1. REACTOR COLOR THEMES */}
-          <div className="p-6 rounded-2xl bg-slate-950/60 border border-cyan-500/20 space-y-4">
+          <div className="p-4 sm:p-6 rounded-2xl bg-slate-950/60 border border-cyan-500/20 space-y-4">
             <div className="text-xs font-mono text-cyan-400 tracking-wider uppercase flex items-center gap-2">
               <Palette size={16} />
               <span>ARC REACTOR COLOR THEME</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 min-[360px]:grid-cols-2 sm:grid-cols-3 gap-3">
               {[
                 { id: 'cyan', label: 'Classic Stark', desc: 'Electric Cyan & Ice Blue', color: 'from-cyan-400 to-blue-600' },
                 { id: 'gold-crimson', label: 'Mark 85', desc: 'Gold & Crimson Core', color: 'from-amber-400 to-red-600' },

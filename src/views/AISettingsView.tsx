@@ -37,15 +37,15 @@ export const AISettingsView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <Sparkles size={14} className="text-cyan-400" />
-            <span>NEURAL CORE CONFIGURATION</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <Sparkles size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">NEURAL CORE CONFIGURATION</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             AI Engine & Quota Architecture
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -56,7 +56,7 @@ export const AISettingsView: React.FC = () => {
         <button
           onClick={handleRunLatencyTest}
           disabled={testing}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 min-h-[42px] rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors shrink-0"
         >
           <Activity size={14} className={testing ? 'animate-spin' : ''} />
           <span>{testing ? 'Testing Link...' : 'Test AI Gateway Latency'}</span>
@@ -64,13 +64,13 @@ export const AISettingsView: React.FC = () => {
       </div>
 
       {/* ZERO-COST FREE-TIER TRANSPARENCY CARD */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/30 via-slate-950 to-emerald-950/20 border border-emerald-500/30">
-        <div className="flex items-start gap-4">
+      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-emerald-950/30 via-slate-950 to-emerald-950/20 border border-emerald-500/30">
+        <div className="flex flex-col sm:flex-row items-start gap-4">
           <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shrink-0">
             <ShieldCheck size={24} />
           </div>
-          <div className="space-y-1">
-            <h3 className="font-mono text-base font-bold text-slate-100 flex items-center gap-2">
+          <div className="space-y-1 min-w-0 flex-1 w-full">
+            <h3 className="font-mono text-base font-bold text-slate-100 flex flex-wrap items-center gap-2">
               <span>Absolute ₹0 Budget Compliance Guarantee</span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
                 ACTIVE

@@ -58,15 +58,15 @@ export const AccountView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <ShieldCheck size={14} className="text-cyan-400" />
-            <span>SECURITY, AUTHENTICATION & PRIVACY AUDIT</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <ShieldCheck size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">SECURITY, AUTH & PRIVACY AUDIT</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             Account & Data Sovereignty
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -74,10 +74,10 @@ export const AccountView: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={handleExportFullBackup}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 min-h-[42px] rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors"
           >
             <Download size={14} />
             <span>Export Ecosystem JSON</span>
@@ -86,29 +86,29 @@ export const AccountView: React.FC = () => {
       </div>
 
       {/* ACTIVE IDENTITY CARD */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-[#060e20] to-[#040814] border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-cyan-950 border border-cyan-400/50 flex items-center justify-center text-cyan-300 text-2xl font-mono font-bold shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-[#060e20] to-[#040814] border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-5 min-w-0">
+        <div className="flex items-center gap-4 min-w-0">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-cyan-950 border border-cyan-400/50 flex items-center justify-center text-cyan-300 text-xl sm:text-2xl font-mono font-bold shadow-[0_0_20px_rgba(0,240,255,0.2)] shrink-0">
             {user ? (user.displayName || user.email || 'U').charAt(0).toUpperCase() : 'G'}
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-lg font-mono font-bold text-slate-100">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-base sm:text-lg font-mono font-bold text-slate-100 truncate">
                 {user ? user.displayName || user.email : 'Local Guest Mode (Offline)'}
               </h2>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
                 user ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-amber-500/20 border-amber-500/40 text-amber-300'
               }`}>
                 {user ? 'AUTHENTICATED' : 'OFFLINE SANDBOX'}
               </span>
             </div>
-            <div className="text-xs text-slate-400 font-mono mt-0.5">
+            <div className="text-xs text-slate-400 font-mono mt-1 truncate">
               UID: {user ? user.uid : 'local_device_sandbox_idb'}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           {user ? (
             <button
               onClick={logout}

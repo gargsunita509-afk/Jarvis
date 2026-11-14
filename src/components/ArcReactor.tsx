@@ -4,7 +4,8 @@ import { ReactorState } from '../types/jarvis.ts';
 interface ArcReactorProps {
   state?: ReactorState;
   colorTheme?: 'cyan' | 'gold-crimson' | 'violet' | 'emerald' | 'monochrome';
-  size?: number; // size in px, default 280
+  size?: number; // max size in px, scales responsively via CSS className or max-width
+  className?: string;
   interactive?: boolean;
   onClick?: () => void;
   showStatusLabel?: boolean;
@@ -14,11 +15,11 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
   state = 'standby',
   colorTheme = 'cyan',
   size = 280,
+  className = '',
   interactive = true,
   onClick,
   showStatusLabel = false
 }) => {
-  // Theme palette resolution
   const theme = useMemo(() => {
     switch (colorTheme) {
       case 'gold-crimson':
@@ -27,10 +28,10 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
           coreCenter: '#fef08a',
           primary: '#eab308',
           secondary: '#dc2626',
-          ringBorder: 'rgba(234, 179, 8, 0.4)',
+          ringBorder: 'rgba(234, 179, 8, 0.45)',
           accentGlow: 'rgba(220, 38, 38, 0.5)',
           coils: '#fbbf24',
-          shadow: '0 0 50px rgba(234, 179, 8, 0.45)'
+          shadow: '0 0 42px rgba(234, 179, 8, 0.4)'
         };
       case 'violet':
         return {
@@ -38,10 +39,10 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
           coreCenter: '#f3e8ff',
           primary: '#c084fc',
           secondary: '#6366f1',
-          ringBorder: 'rgba(168, 85, 247, 0.4)',
+          ringBorder: 'rgba(168, 85, 247, 0.45)',
           accentGlow: 'rgba(99, 102, 241, 0.5)',
           coils: '#c084fc',
-          shadow: '0 0 50px rgba(168, 85, 247, 0.45)'
+          shadow: '0 0 42px rgba(168, 85, 247, 0.4)'
         };
       case 'emerald':
         return {
@@ -49,10 +50,10 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
           coreCenter: '#d1fae5',
           primary: '#34d399',
           secondary: '#059669',
-          ringBorder: 'rgba(16, 185, 129, 0.4)',
+          ringBorder: 'rgba(16, 185, 129, 0.45)',
           accentGlow: 'rgba(5, 150, 105, 0.5)',
           coils: '#34d399',
-          shadow: '0 0 50px rgba(16, 185, 129, 0.45)'
+          shadow: '0 0 42px rgba(16, 185, 129, 0.4)'
         };
       case 'monochrome':
         return {
@@ -60,33 +61,31 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
           coreCenter: '#ffffff',
           primary: '#cbd5e1',
           secondary: '#64748b',
-          ringBorder: 'rgba(226, 232, 240, 0.4)',
+          ringBorder: 'rgba(226, 232, 240, 0.45)',
           accentGlow: 'rgba(148, 163, 184, 0.5)',
           coils: '#f1f5f9',
-          shadow: '0 0 50px rgba(255, 255, 255, 0.35)'
+          shadow: '0 0 42px rgba(255, 255, 255, 0.35)'
         };
       case 'cyan':
       default:
         return {
           coreGlow: '#00f0ff',
-          coreCenter: '#f0fdf4',
+          coreCenter: '#ecfeff',
           primary: '#38bdf8',
           secondary: '#0284c7',
-          ringBorder: 'rgba(0, 240, 255, 0.4)',
-          accentGlow: 'rgba(0, 240, 255, 0.6)',
-          coils: '#38bdf8',
-          shadow: '0 0 50px rgba(0, 240, 255, 0.45)'
+          ringBorder: 'rgba(0, 240, 255, 0.45)',
+          accentGlow: 'rgba(0, 240, 255, 0.55)',
+          coils: '#7dd3fc',
+          shadow: '0 0 46px rgba(0, 240, 255, 0.42)'
         };
     }
   }, [colorTheme]);
 
-  // Override colors for error state
   const isError = state === 'error';
   const activeCoreGlow = isError ? '#f59e0b' : theme.coreGlow;
   const activePrimary = isError ? '#ef4444' : theme.primary;
   const activeSecondary = isError ? '#b91c1c' : theme.secondary;
 
-  // Animation parameters based on state
   const outerSpinClass = useMemo(() => {
     switch (state) {
       case 'activation':
@@ -103,7 +102,7 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
         return 'animate-none';
       case 'standby':
       default:
-        return 'animate-[spin_25s_linear_infinite]';
+        return 'animate-[spin_28s_linear_infinite]';
     }
   }, [state]);
 
@@ -123,7 +122,7 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
         return 'animate-none';
       case 'standby':
       default:
-        return 'animate-[spin_18s_linear_infinite_reverse]';
+        return 'animate-[spin_20s_linear_infinite_reverse]';
     }
   }, [state]);
 
@@ -138,7 +137,7 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
       case 'speaking':
         return 'animate-pulse scale-110 duration-500';
       case 'executing':
-        return 'scale-125 transition-transform duration-300';
+        return 'scale-110 transition-transform duration-300';
       case 'error':
         return 'animate-bounce duration-1000';
       case 'standby':
@@ -147,108 +146,132 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
     }
   }, [state]);
 
-  // Generate 10 copper/cyan magnetic coils arranged in 360 degrees
+  // 10 Metallic Solenoid Segments (matching metallic titanium + cyan reference aesthetic)
   const coils = useMemo(() => {
-    const list = [];
-    const count = 10;
-    for (let i = 0; i < count; i++) {
-      const angle = (i * 360) / count;
-      list.push({ angle, id: i });
-    }
-    return list;
+    return Array.from({ length: 10 }, (_, i) => ({
+      angle: (i * 360) / 10,
+      id: i
+    }));
   }, []);
 
-  // 60 perimeter tick marks
+  // 36 Perimeter HUD tick marks
   const tickMarks = useMemo(() => {
-    const ticks = [];
-    for (let i = 0; i < 36; i++) {
-      const angle = i * 10;
-      const isMajor = i % 3 === 0;
-      ticks.push({ angle, isMajor, id: i });
-    }
-    return ticks;
+    return Array.from({ length: 36 }, (_, i) => ({
+      angle: i * 10,
+      isMajor: i % 3 === 0,
+      id: i
+    }));
   }, []);
+
+  const uid = `reactor-${colorTheme}`;
 
   return (
-    <div className="relative inline-flex flex-col items-center justify-center select-none">
-      {/* Outer Glow Aura */}
-      <div
-        className="absolute rounded-full transition-all duration-700 pointer-events-none"
-        style={{
-          width: size * 1.25,
-          height: size * 1.25,
-          background: `radial-gradient(circle, ${isError ? 'rgba(239, 68, 68, 0.25)' : theme.accentGlow} 0%, rgba(0,0,0,0) 70%)`,
-          filter: 'blur(20px)',
-          opacity: state === 'listening' || state === 'speaking' || state === 'executing' ? 0.9 : 0.6
-        }}
-      />
-
-      {/* Main Reactor Body Container */}
+    <div className="relative inline-flex flex-col items-center justify-center select-none max-w-full">
+      {/* Main Fluid Reactor Body Container */}
       <div
         onClick={interactive ? onClick : undefined}
-        className={`relative flex items-center justify-center rounded-full transition-all duration-500 ${
+        role={interactive ? 'button' : undefined}
+        tabIndex={interactive ? 0 : undefined}
+        onKeyDown={
+          interactive && onClick
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onClick();
+                }
+              }
+            : undefined
+        }
+        className={`relative aspect-square max-w-full flex items-center justify-center rounded-full transition-transform duration-300 ${
           interactive ? 'cursor-pointer hover:scale-[1.02] active:scale-[0.98]' : ''
-        }`}
+        } ${className}`}
         style={{
-          width: size,
-          height: size,
-          boxShadow: isError ? '0 0 45px rgba(239, 68, 68, 0.5)' : theme.shadow
+          width: className ? undefined : `min(${size}px, 68vw)`,
+          boxShadow: isError ? '0 0 40px rgba(239, 68, 68, 0.45)' : theme.shadow
         }}
         title={`JARVIS Arc Reactor — Core Status: ${state.toUpperCase()}`}
+        aria-label={`JARVIS Arc Reactor, core status ${state}`}
       >
+        {/* Scaled Ambient Glow Aura (safe inside parent bounds) */}
+        <div
+          className="absolute inset-[-8%] rounded-full transition-all duration-700 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle, ${isError ? 'rgba(239, 68, 68, 0.25)' : theme.accentGlow} 0%, rgba(0,0,0,0) 70%)`,
+            filter: 'blur(18px)',
+            opacity: state === 'listening' || state === 'speaking' || state === 'executing' ? 0.9 : 0.55
+          }}
+        />
+
         {/* SVG Mechanical Framework */}
         <svg
           viewBox="0 0 300 300"
-          className="w-full h-full"
+          className="relative z-10 w-full h-full"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* Core Radial Gradients */}
-            <radialGradient id={`core-glow-${colorTheme}`} cx="50%" cy="50%" r="50%">
+            <linearGradient id={`${uid}-titanium`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#64748b" />
+              <stop offset="30%" stopColor="#1e293b" />
+              <stop offset="65%" stopColor="#475569" />
+              <stop offset="100%" stopColor="#0f172a" />
+            </linearGradient>
+
+            <linearGradient id={`${uid}-coil-metal`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#cbd5e1" />
+              <stop offset="50%" stopColor="#334155" />
+              <stop offset="100%" stopColor="#0f172a" />
+            </linearGradient>
+
+            <radialGradient id={`${uid}-core-glow`} cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-              <stop offset="35%" stopColor={activeCoreGlow} stopOpacity="0.9" />
-              <stop offset="70%" stopColor={activePrimary} stopOpacity="0.5" />
+              <stop offset="35%" stopColor={activeCoreGlow} stopOpacity="0.92" />
+              <stop offset="72%" stopColor={activePrimary} stopOpacity="0.45" />
               <stop offset="100%" stopColor="transparent" stopOpacity="0" />
             </radialGradient>
 
-            <radialGradient id={`palladium-core-${colorTheme}`} cx="50%" cy="50%" r="50%">
+            <radialGradient id={`${uid}-palladium-core`} cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="50%" stopColor={activeCoreGlow} />
-              <stop offset="90%" stopColor={activeSecondary} />
+              <stop offset="48%" stopColor={activeCoreGlow} />
+              <stop offset="88%" stopColor={activeSecondary} />
               <stop offset="100%" stopColor="#030712" />
             </radialGradient>
 
-            {/* Glowing Filter */}
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <filter id={`${uid}-glow`} x="-25%" y="-25%" width="150%" height="150%">
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
 
-          {/* 1. Base Housing Rim */}
+          {/* 1. Outer Metallic Titanium Chassis Ring */}
           <circle
             cx="150"
             cy="150"
-            r="142"
-            fill="#050a15"
+            r="144"
+            fill="#040914"
+            stroke={`url(#${uid}-titanium)`}
+            strokeWidth="4"
+          />
+          <circle
+            cx="150"
+            cy="150"
+            r="140"
+            fill="none"
             stroke={theme.ringBorder}
-            strokeWidth="2.5"
+            strokeWidth="1.2"
           />
 
           {/* 2. Outer Rotating Segmented Track */}
           <g className={outerSpinClass} style={{ transformOrigin: '150px 150px' }}>
-            {/* Outer segmented dashes */}
             <circle
               cx="150"
               cy="150"
               r="134"
               fill="none"
               stroke={activePrimary}
-              strokeWidth="2"
-              strokeDasharray="18 12 6 12"
-              opacity="0.85"
+              strokeWidth="2.5"
+              strokeDasharray="20 10 6 10"
+              opacity="0.88"
             />
-            {/* Outer notched markers */}
             <circle
               cx="150"
               cy="150"
@@ -259,54 +282,40 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
               strokeDasharray="4 8"
             />
             {/* 4 Cardinal Angular Brackets */}
-            <path
-              d="M 140 16 L 160 16 M 150 10 L 150 22"
-              stroke={activeCoreGlow}
-              strokeWidth="2"
-            />
-            <path
-              d="M 140 284 L 160 284 M 150 278 L 150 290"
-              stroke={activeCoreGlow}
-              strokeWidth="2"
-            />
-            <path
-              d="M 16 140 L 16 160 M 10 150 L 22 150"
-              stroke={activeCoreGlow}
-              strokeWidth="2"
-            />
-            <path
-              d="M 284 140 L 284 160 M 278 150 L 290 150"
-              stroke={activeCoreGlow}
-              strokeWidth="2"
-            />
+            <path d="M 138 15 L 162 15 M 150 9 L 150 21" stroke={activeCoreGlow} strokeWidth="2" />
+            <path d="M 138 285 L 162 285 M 150 279 L 150 291" stroke={activeCoreGlow} strokeWidth="2" />
+            <path d="M 15 138 L 15 162 M 9 150 L 21 150" stroke={activeCoreGlow} strokeWidth="2" />
+            <path d="M 285 138 L 285 162 M 279 150 L 291 150" stroke={activeCoreGlow} strokeWidth="2" />
           </g>
 
           {/* 3. Static Precision Tick Ring */}
           <g>
-            <circle
-              cx="150"
-              cy="150"
-              r="118"
-              fill="none"
-              stroke="rgba(255,255,255,0.15)"
-              strokeWidth="1"
-            />
-            {tickMarks.map(t => (
+            <circle cx="150" cy="150" r="118" fill="none" stroke="rgba(226,232,240,0.18)" strokeWidth="1" />
+            {tickMarks.map((t) => (
               <line
                 key={t.id}
                 x1="150"
-                y1={t.isMajor ? "34" : "37"}
+                y1={t.isMajor ? '33' : '37'}
                 x2="150"
-                y2="42"
-                stroke={t.isMajor ? activeCoreGlow : 'rgba(255,255,255,0.3)'}
-                strokeWidth={t.isMajor ? "1.5" : "0.75"}
+                y2="43"
+                stroke={t.isMajor ? activeCoreGlow : 'rgba(203,213,225,0.35)'}
+                strokeWidth={t.isMajor ? '1.6' : '0.8'}
                 transform={`rotate(${t.angle} 150 150)`}
               />
             ))}
           </g>
 
-          {/* 4. 10 Concentric Energy Coils (Arc Reactor Electromagnets) */}
+          {/* 4. 10 Metallic Brushed-Titanium & Illuminated Solenoid Coils */}
           <g>
+            <circle
+              cx="150"
+              cy="150"
+              r="96"
+              fill="none"
+              stroke="#1e293b"
+              strokeWidth="26"
+              opacity="0.7"
+            />
             <circle
               cx="150"
               cy="150"
@@ -314,29 +323,37 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
               fill="none"
               stroke={activeSecondary}
               strokeWidth="18"
-              strokeDasharray="2 18"
-              opacity="0.3"
+              strokeDasharray="3 17"
+              opacity="0.38"
             />
 
-            {coils.map(c => (
+            {coils.map((c) => (
               <g key={c.id} transform={`rotate(${c.angle} 150 150)`}>
-                {/* Copper/cyan electromagnetic solenoid block */}
+                {/* Brushed titanium housing block */}
                 <rect
-                  x="142"
-                  y="48"
-                  width="16"
-                  height="24"
-                  rx="2"
-                  fill="#0b172a"
-                  stroke={theme.coils}
-                  strokeWidth="1.5"
-                  filter="url(#glow)"
+                  x="139"
+                  y="45"
+                  width="22"
+                  height="28"
+                  rx="3"
+                  fill={`url(#${uid}-coil-metal)`}
+                  stroke="rgba(226,232,240,0.45)"
+                  strokeWidth="1"
                 />
-                {/* Solenoid wire windings */}
-                <line x1="144" y1="53" x2="156" y2="53" stroke={activeCoreGlow} strokeWidth="1" />
-                <line x1="144" y1="58" x2="156" y2="58" stroke={activeCoreGlow} strokeWidth="1" />
-                <line x1="144" y1="63" x2="156" y2="63" stroke={activeCoreGlow} strokeWidth="1" />
-                <line x1="144" y1="68" x2="156" y2="68" stroke={activeCoreGlow} strokeWidth="1" />
+                {/* Illuminated core emitter bar */}
+                <rect
+                  x="144"
+                  y="49"
+                  width="12"
+                  height="7"
+                  rx="1.5"
+                  fill={activeCoreGlow}
+                  filter={`url(#${uid}-glow)`}
+                />
+                {/* Metallic windings */}
+                <line x1="142" y1="60" x2="158" y2="60" stroke={theme.coils} strokeWidth="1.2" opacity="0.85" />
+                <line x1="142" y1="65" x2="158" y2="65" stroke={theme.coils} strokeWidth="1.2" opacity="0.85" />
+                <line x1="142" y1="69" x2="158" y2="69" stroke="rgba(226,232,240,0.4)" strokeWidth="1" />
               </g>
             ))}
           </g>
@@ -346,103 +363,80 @@ export const ArcReactor: React.FC<ArcReactorProps> = ({
             <circle
               cx="150"
               cy="150"
-              r="76"
+              r="75"
               fill="none"
               stroke={activePrimary}
               strokeWidth="2.5"
-              strokeDasharray="30 15 10 15"
-              opacity="0.9"
+              strokeDasharray="28 14 10 14"
+              opacity="0.92"
             />
-            {/* Inner mechanical notches */}
             <circle
               cx="150"
               cy="150"
-              r="66"
+              r="65"
               fill="none"
-              stroke={activeSecondary}
+              stroke="rgba(226,232,240,0.35)"
               strokeWidth="1.5"
               strokeDasharray="8 6"
             />
           </g>
 
           {/* 6. Glowing Central Power Chamber */}
-          <circle
-            cx="150"
-            cy="150"
-            r="54"
-            fill="#030816"
-            stroke={activeCoreGlow}
-            strokeWidth="2"
-          />
+          <circle cx="150" cy="150" r="55" fill="#030816" stroke={activeCoreGlow} strokeWidth="2.2" />
 
-          {/* 7. Quantum Core Triangle / Hexagonal Aperture */}
+          {/* 7. Quantum Core Aperture */}
           <g className={corePulseClass} style={{ transformOrigin: '150px 150px' }}>
-            {/* Core Glow Bloom */}
-            <circle
-              cx="150"
-              cy="150"
-              r="48"
-              fill={`url(#core-glow-${colorTheme})`}
-            />
+            <circle cx="150" cy="150" r="50" fill={`url(#${uid}-core-glow)`} />
 
-            {/* Inverted Triangle Reactor Shroud (Classic Mark III / VI design) */}
+            {/* Geometric Reactor Shroud */}
             <polygon
-              points="150,118 178,166 122,166"
+              points="150,114 182,168 118,168"
               fill="none"
               stroke={activeCoreGlow}
               strokeWidth="2"
-              opacity="0.85"
+              opacity="0.88"
             />
             <polygon
-              points="150,126 172,162 128,162"
+              points="150,124 173,162 127,162"
               fill="none"
               stroke={theme.coreCenter}
               strokeWidth="1"
-              opacity="0.6"
+              opacity="0.65"
             />
 
-            {/* Central Hyper-Energy Core */}
+            {/* Central Energy Sphere */}
             <circle
               cx="150"
               cy="150"
-              r="22"
-              fill={`url(#palladium-core-${colorTheme})`}
-              filter="url(#glow)"
+              r="24"
+              fill={`url(#${uid}-palladium-core)`}
+              filter={`url(#${uid}-glow)`}
             />
-            <circle
-              cx="150"
-              cy="150"
-              r="10"
-              fill="#ffffff"
-            />
+            <circle cx="150" cy="150" r="11" fill="#ffffff" />
           </g>
 
-          {/* 8. Glass Convex Reflection Highlight */}
+          {/* 8. Glass Convex Reflection */}
           <path
-            d="M 110 30 A 130 130 0 0 1 190 30 A 140 140 0 0 0 110 30"
-            fill="rgba(255, 255, 255, 0.15)"
+            d="M 108 30 A 132 132 0 0 1 192 30 A 142 142 0 0 0 108 30"
+            fill="rgba(255, 255, 255, 0.16)"
           />
         </svg>
 
         {/* Ambient Ring Waveform for Listening State */}
         {state === 'listening' && (
-          <div className="absolute inset-0 rounded-full border-2 border-cyan-400 animate-ping opacity-75 pointer-events-none" />
+          <div className="absolute inset-0 rounded-full border-2 border-cyan-400 animate-ping opacity-70 pointer-events-none" />
         )}
 
         {/* Shockwave ripple for Executing State */}
         {state === 'executing' && (
-          <div className="absolute inset-[-20px] rounded-full border-4 border-cyan-300 animate-ping opacity-90 pointer-events-none" />
+          <div className="absolute inset-[-10px] rounded-full border-2 border-cyan-300 animate-ping opacity-80 pointer-events-none" />
         )}
       </div>
 
       {/* Optional Status Label HUD */}
       {showStatusLabel && (
-        <div className="mt-4 flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-cyan-500/30 text-xs font-mono tracking-widest uppercase">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              isError ? 'bg-amber-400' : 'bg-cyan-400'
-            } animate-pulse`}
-          />
+        <div className="mt-3 flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-cyan-500/35 text-[11px] font-mono tracking-widest uppercase">
+          <span className={`w-2 h-2 rounded-full ${isError ? 'bg-amber-400' : 'bg-cyan-400'} animate-pulse`} />
           <span className="text-cyan-300">CORE: {state.toUpperCase()}</span>
         </div>
       )}

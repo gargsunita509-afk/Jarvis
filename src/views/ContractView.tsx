@@ -119,15 +119,15 @@ class JarvisHandshakeManager(private val firestore: FirebaseFirestore) {
 }`;
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <FileCode2 size={14} className="text-cyan-400" />
-            <span>INTEROPERABILITY CONTRACT // ANDROID KOTLIN & WEB PWA</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <FileCode2 size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">INTEROPERABILITY CONTRACT // KOTLIN & PWA</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             Android Companion Integration Contract
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -170,43 +170,43 @@ class JarvisHandshakeManager(private val firestore: FirebaseFirestore) {
       </div>
 
       {/* SCHEMA SPECIFICATION VIEWER */}
-      <div className="p-6 rounded-2xl bg-[#050b18] border border-cyan-500/30 space-y-3 font-mono text-xs">
-        <div className="flex items-center justify-between">
-          <div className="text-cyan-400 font-bold flex items-center gap-2">
-            <Terminal size={16} />
-            <span>SHARED FIRESTORE DATA SCHEMA SPECIFICATION</span>
+      <div className="p-4 sm:p-6 rounded-2xl bg-[#050b18] border border-cyan-500/30 space-y-3 font-mono text-xs min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="text-cyan-400 font-bold flex items-center gap-2 min-w-0">
+            <Terminal size={16} className="shrink-0" />
+            <span className="truncate">SHARED FIRESTORE SCHEMA</span>
           </div>
           <button
             onClick={() => copyCode(schemaSnippet, 'schema')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] transition-colors shrink-0"
           >
             {copiedSection === 'schema' ? <CheckCircle2 size={12} className="text-emerald-400" /> : <Copy size={12} />}
             <span>{copiedSection === 'schema' ? 'Copied' : 'Copy Schema'}</span>
           </button>
         </div>
 
-        <pre className="p-4 rounded-xl bg-slate-950 border border-cyan-500/20 text-slate-300 overflow-x-auto text-[11px] leading-relaxed scrollbar-thin scrollbar-thumb-cyan-500/20">
+        <pre className="w-full max-w-full p-3.5 sm:p-4 rounded-xl bg-slate-950 border border-cyan-500/20 text-slate-300 overflow-x-auto text-[11px] leading-relaxed scrollbar-thin scrollbar-thumb-cyan-500/20">
           {schemaSnippet}
         </pre>
       </div>
 
       {/* KOTLIN COMPANION SAMPLE CODE */}
-      <div className="p-6 rounded-2xl bg-[#050b18] border border-cyan-500/30 space-y-3 font-mono text-xs">
-        <div className="flex items-center justify-between">
-          <div className="text-cyan-400 font-bold flex items-center gap-2">
-            <Cpu size={16} />
-            <span>KOTLIN JETPACK COMPOSE COMPANION HANDSHAKE SPEC</span>
+      <div className="p-4 sm:p-6 rounded-2xl bg-[#050b18] border border-cyan-500/30 space-y-3 font-mono text-xs min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="text-cyan-400 font-bold flex items-center gap-2 min-w-0">
+            <Cpu size={16} className="shrink-0" />
+            <span className="truncate">KOTLIN COMPANION HANDSHAKE</span>
           </div>
           <button
             onClick={() => copyCode(kotlinHandshakeSnippet, 'kotlin')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] transition-colors shrink-0"
           >
             {copiedSection === 'kotlin' ? <CheckCircle2 size={12} className="text-emerald-400" /> : <Copy size={12} />}
             <span>{copiedSection === 'kotlin' ? 'Copied' : 'Copy Kotlin Code'}</span>
           </button>
         </div>
 
-        <pre className="p-4 rounded-xl bg-slate-950 border border-cyan-500/20 text-slate-300 overflow-x-auto text-[11px] leading-relaxed scrollbar-thin scrollbar-thumb-cyan-500/20">
+        <pre className="w-full max-w-full p-3.5 sm:p-4 rounded-xl bg-slate-950 border border-cyan-500/20 text-slate-300 overflow-x-auto text-[11px] leading-relaxed scrollbar-thin scrollbar-thumb-cyan-500/20">
           {kotlinHandshakeSnippet}
         </pre>
       </div>

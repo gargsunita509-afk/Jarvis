@@ -1,6 +1,6 @@
 import React from 'react';
 import { JarvisProvider, useJarvis } from './context/JarvisContext.tsx';
-import { Navigation } from './components/Navigation.tsx';
+import { NavigationShell } from './components/Navigation.tsx';
 import { InstallPrompt } from './components/InstallPrompt.tsx';
 
 // Views
@@ -22,10 +22,9 @@ import { HelpView } from './views/HelpView.tsx';
 const MainLayout: React.FC = () => {
   const { activeView, systemNotification, clearNotification } = useJarvis();
 
-  // If user is on the Landing Page, render full cinematic landing page without app sidebar
   if (activeView === 'landing') {
     return (
-      <div className="min-h-screen bg-[#030712]">
+      <div className="min-h-[100dvh] w-full overflow-x-hidden bg-[#020611]">
         <LandingPage />
         <InstallPrompt />
       </div>
@@ -33,15 +32,11 @@ const MainLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#030712] font-sans text-slate-100">
-      {/* HUD Navigation Sidebar & Mobile Nav */}
-      <Navigation />
-
-      {/* Main Content Viewport */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden pb-16 md:pb-0 relative">
-        {/* Subtle Background Scanning Lines */}
-        <div 
-          className="absolute inset-0 opacity-[0.025] pointer-events-none" 
+    <NavigationShell>
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col relative overflow-hidden">
+        {/* Subtle Background Scanning Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: `linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)`,
             backgroundSize: '48px 48px'
@@ -50,11 +45,12 @@ const MainLayout: React.FC = () => {
 
         {/* Global Toast Notification */}
         {systemNotification && (
-          <div className="fixed top-4 right-4 z-50 max-w-md px-4 py-3 rounded-xl bg-[#060e24] border border-cyan-400 text-cyan-200 text-xs font-mono shadow-[0_0_20px_rgba(0,240,255,0.3)] animate-fade-in flex items-center justify-between gap-3">
-            <span>{systemNotification}</span>
+          <div className="fixed top-16 md:top-20 left-3 right-3 sm:left-auto sm:right-5 z-50 sm:max-w-md px-4 py-3 rounded-xl bg-[#060e24]/95 border border-cyan-400/80 text-cyan-100 text-xs font-mono shadow-[0_0_20px_rgba(0,240,255,0.3)] flex items-center justify-between gap-3 backdrop-blur-md">
+            <span className="min-w-0 break-words">{systemNotification}</span>
             <button
               onClick={clearNotification}
-              className="text-cyan-400/60 hover:text-cyan-200"
+              className="text-cyan-400/70 hover:text-cyan-200 shrink-0 p-1"
+              aria-label="Dismiss notification"
             >
               ✕
             </button>
@@ -62,7 +58,7 @@ const MainLayout: React.FC = () => {
         )}
 
         {/* Active Page View Switcher */}
-        <div className="flex-1 h-full overflow-hidden">
+        <div className="relative z-10 flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden">
           {activeView === 'dashboard' && <DashboardView />}
           {activeView === 'conversation' && <ConversationView />}
           {activeView === 'memory' && <MemoryView />}
@@ -81,7 +77,7 @@ const MainLayout: React.FC = () => {
         {/* PWA Install Banner */}
         <InstallPrompt />
       </main>
-    </div>
+    </NavigationShell>
   );
 };
 

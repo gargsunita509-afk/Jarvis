@@ -70,23 +70,23 @@ export const LandingPage: React.FC = () => {
       />
 
       {/* TOP NAVIGATION HEADER */}
-      <header className="relative z-20 max-w-7xl mx-auto px-6 py-6 flex items-center justify-between border-b border-cyan-500/20 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-slate-900 border border-cyan-400 flex items-center justify-center shadow-[0_0_12px_#00f0ff]">
+      <header className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between gap-3 border-b border-cyan-500/20 backdrop-blur-sm">
+        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div className="w-9 h-9 rounded-full bg-slate-900 border border-cyan-400 flex items-center justify-center shadow-[0_0_12px_#00f0ff] shrink-0">
             <div className="w-3.5 h-3.5 rounded-full bg-cyan-300 animate-pulse" />
           </div>
-          <div>
-            <span className="font-mono font-bold tracking-widest text-xl text-cyan-300">J.A.R.V.I.S.</span>
+          <div className="min-w-0">
+            <span className="font-mono font-bold tracking-widest text-lg sm:text-xl text-cyan-300">J.A.R.V.I.S.</span>
             <span className="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
               ECOSYSTEM OS
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={() => setActiveView('apk')}
-            className="hidden sm:flex items-center gap-2 text-xs font-mono text-cyan-300/80 hover:text-cyan-200 px-3 py-1.5 rounded border border-cyan-500/30 hover:border-cyan-400 transition-colors"
+            className="hidden sm:flex items-center gap-2 text-xs font-mono text-cyan-300/80 hover:text-cyan-200 px-3 py-2 min-h-[40px] rounded-lg border border-cyan-500/30 hover:border-cyan-400 transition-colors"
           >
             <Download size={14} />
             <span>COMPANION APK</span>
@@ -94,7 +94,7 @@ export const LandingPage: React.FC = () => {
           {user ? (
             <button
               onClick={() => setActiveView('dashboard')}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/60 text-cyan-200 text-xs font-mono tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+              className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 min-h-[42px] rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/60 text-cyan-200 text-xs font-mono tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)]"
             >
               <span>ACCESS CORE</span>
               <ArrowRight size={14} />
@@ -102,7 +102,7 @@ export const LandingPage: React.FC = () => {
           ) : (
             <button
               onClick={() => enterGuestLocalMode()}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/60 text-cyan-200 text-xs font-mono tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+              className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 min-h-[42px] rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/60 text-cyan-200 text-xs font-mono tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)]"
             >
               <span>LAUNCH JARVIS</span>
               <ArrowRight size={14} />
@@ -112,32 +112,32 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* HERO SECTION */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-24 flex flex-col items-center text-center">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-16 sm:pb-24 flex flex-col items-center text-center">
         {/* Subtitle Telemetry Pill */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-8 backdrop-blur-md">
-          <Sparkles size={14} className="text-cyan-400 animate-spin" />
+        <div className="inline-flex flex-wrap items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-[10px] sm:text-xs font-mono text-cyan-300 mb-6 sm:mb-8 backdrop-blur-md max-w-full">
+          <Sparkles size={14} className="text-cyan-400 animate-spin shrink-0" />
           <span className="tracking-widest">NEXT-GENERATION PERSONAL AI OS</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-          <span className="text-slate-400">WEB + ANDROID PWA</span>
+          <span className="hidden sm:inline w-1.5 h-1.5 rounded-full bg-cyan-400" />
+          <span className="text-slate-400 hidden sm:inline">WEB + ANDROID PWA</span>
         </div>
 
         {/* Headline */}
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight font-mono mb-6 bg-gradient-to-b from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent max-w-5xl">
+        <h1 className="text-[clamp(2.1rem,8.5vw,4.75rem)] leading-[1.08] font-black tracking-tight font-mono mb-5 bg-gradient-to-b from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent max-w-5xl break-words">
           YOUR WORLD.<br />YOUR COMMAND.
         </h1>
 
-        <p className="max-w-2xl text-slate-400 text-base sm:text-lg mb-12 leading-relaxed font-sans">
+        <p className="max-w-2xl text-slate-400 text-sm sm:text-lg mb-8 sm:mb-12 leading-relaxed font-sans px-1">
           An ultra-advanced personal AI assistant inspired by Tony Stark's JARVIS.
           Featuring a responsive Arc Reactor core, continuous voice conversations in English, Hindi & Hinglish,
           long-term memory banks, and seamless companion APK synchronization.
         </p>
 
         {/* Centerpiece Interactive Arc Reactor */}
-        <div className="relative my-6 group">
+        <div className="relative my-4 sm:my-6 group">
           <ArcReactor
             state={demoState}
             colorTheme={preferences.reactorColor}
-            size={280}
+            className="w-[min(220px,62vw)] sm:w-[260px]"
             interactive={true}
             onClick={() => {
               if (demoState === 'standby') {
@@ -152,10 +152,10 @@ export const LandingPage: React.FC = () => {
         </div>
 
         {/* CTAs */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-6 sm:mt-8 w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <button
             onClick={() => setActiveView('dashboard')}
-            className="flex items-center gap-3 px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-mono font-bold tracking-wider text-sm transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)]"
+            className="flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 min-h-[48px] rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-mono font-bold tracking-wider text-xs sm:text-sm transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)]"
           >
             <Zap size={18} />
             <span>INITIALIZE COMMAND CENTRE</span>
@@ -163,7 +163,7 @@ export const LandingPage: React.FC = () => {
 
           <button
             onClick={() => setActiveView('apk')}
-            className="flex items-center gap-3 px-6 py-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/80 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 font-mono text-sm transition-all"
+            className="flex items-center justify-center gap-3 px-6 py-3.5 min-h-[48px] rounded-xl bg-slate-900/80 hover:bg-slate-800/80 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 font-mono text-xs sm:text-sm transition-all"
           >
             <Smartphone size={18} />
             <span>COMPANION APK INFO</span>
@@ -171,20 +171,20 @@ export const LandingPage: React.FC = () => {
         </div>
 
         {/* Status Telemetry HUD Bar */}
-        <div className="mt-16 w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20 font-mono text-left">
-          <div className="p-3 border-r border-cyan-500/10">
+        <div className="mt-12 sm:mt-16 w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20 font-mono text-left">
+          <div className="p-2.5 sm:border-r border-cyan-500/10">
             <div className="text-[10px] text-cyan-400/60 uppercase">Ecosystem Target</div>
             <div className="text-sm font-bold text-slate-200 mt-1">Web PWA + Android APK</div>
           </div>
-          <div className="p-3 border-r border-cyan-500/10">
+          <div className="p-2.5 md:border-r border-cyan-500/10">
             <div className="text-[10px] text-cyan-400/60 uppercase">Voice Engine</div>
             <div className="text-sm font-bold text-slate-200 mt-1">Cinematic Male / Tri-lingual</div>
           </div>
-          <div className="p-3 border-r border-cyan-500/10">
+          <div className="p-2.5 sm:border-r border-cyan-500/10">
             <div className="text-[10px] text-cyan-400/60 uppercase">Memory Storage</div>
             <div className="text-sm font-bold text-slate-200 mt-1">IndexedDB + Firestore ABAC</div>
           </div>
-          <div className="p-3">
+          <div className="p-2.5">
             <div className="text-[10px] text-cyan-400/60 uppercase">Budget Tier</div>
             <div className="text-sm font-bold text-emerald-400 mt-1">₹0 Spark Plan Free</div>
           </div>
@@ -192,23 +192,23 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* INTERACTIVE DEMONSTRATION SECTION */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-cyan-500/20">
-        <div className="text-center mb-8">
+      <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-cyan-500/20">
+        <div className="text-center mb-6 sm:mb-8">
           <span className="text-xs font-mono text-cyan-400 tracking-widest uppercase">Live Simulation</span>
-          <h2 className="text-3xl sm:text-4xl font-bold font-mono text-slate-100 mt-2">
+          <h2 className="text-2xl sm:text-4xl font-bold font-mono text-slate-100 mt-2">
             Experience Neural Voice Response
           </h2>
-          <p className="text-slate-400 text-sm mt-2">
+          <p className="text-slate-400 text-xs sm:text-sm mt-2">
             Test JARVIS in English, Hindi, or Hinglish right from your browser.
           </p>
         </div>
 
         {/* Terminal Chat Console */}
-        <div className="p-6 rounded-2xl bg-[#050b18]/90 border border-cyan-500/30 shadow-[0_0_30px_rgba(0,240,255,0.08)]">
-          <div className="flex items-center justify-between pb-4 border-b border-cyan-500/20 text-xs font-mono text-cyan-400/70">
+        <div className="p-4 sm:p-6 rounded-2xl bg-[#050b18]/90 border border-cyan-500/30 shadow-[0_0_30px_rgba(0,240,255,0.08)]">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-cyan-500/20 text-xs font-mono text-cyan-400/70">
             <div className="flex items-center gap-2">
               <Terminal size={14} className="text-cyan-400" />
-              <span>TERMINAL // VOCAL PROTOCOL LINK</span>
+              <span>TERMINAL // VOCAL LINK</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -216,28 +216,28 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="my-6 space-y-4">
+          <div className="my-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-400/40 flex items-center justify-center text-cyan-300 font-mono text-xs shrink-0">
                 J
               </div>
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/20 text-sm text-slate-200 leading-relaxed font-sans max-w-2xl">
+              <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/80 border border-cyan-500/20 text-sm text-slate-200 leading-relaxed font-sans max-w-2xl min-w-0 break-words">
                 {demoResponse}
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleDemoSubmit} className="flex gap-2">
+          <form onSubmit={handleDemoSubmit} className="flex flex-col sm:flex-row gap-2 min-w-0">
             <input
               type="text"
               value={demoInput}
               onChange={(e) => setDemoInput(e.target.value)}
-              placeholder="Ask JARVIS in English, Hindi, or Hinglish (e.g., 'Kya tumhe mera study project yaad hai?')..."
-              className="flex-1 bg-slate-950/80 border border-cyan-500/30 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-cyan-400 font-sans"
+              placeholder="Ask JARVIS in English, Hindi, or Hinglish..."
+              className="flex-1 min-w-0 bg-slate-950/80 border border-cyan-500/30 rounded-xl px-4 py-3 min-h-[44px] text-sm text-slate-100 focus:outline-none focus:border-cyan-400 font-sans"
             />
             <button
               type="submit"
-              className="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-colors shrink-0"
+              className="px-6 py-3 min-h-[44px] rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-colors shrink-0"
             >
               Transmit
             </button>

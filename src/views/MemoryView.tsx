@@ -116,15 +116,15 @@ export const MemoryView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER & AUTO-LEARN CONTROLS */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <Brain size={14} className="text-cyan-400" />
-            <span>NEURAL REPOSITORY // {memories.length} RECORDS</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <Brain size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">NEURAL REPOSITORY // {memories.length} RECORDS</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             Long-Term Memory Vault
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -132,9 +132,9 @@ export const MemoryView: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           {/* Automatic Memory Toggle */}
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-xs font-mono">
+          <div className="flex items-center gap-2 px-3 py-2 min-h-[42px] rounded-xl bg-slate-900 border border-cyan-500/30 text-xs font-mono">
             <span className="text-slate-300">Auto-Learn:</span>
             <button
               onClick={() => updatePreferences({ autoMemoryEnabled: !preferences.autoMemoryEnabled })}
@@ -150,7 +150,7 @@ export const MemoryView: React.FC = () => {
 
           <button
             onClick={handleExport}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 min-h-[42px] rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors"
             title="Export all memories to JSON"
           >
             <Download size={14} />
@@ -159,7 +159,7 @@ export const MemoryView: React.FC = () => {
 
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)]"
+            className="flex items-center gap-2 px-4 py-2 min-h-[42px] rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)]"
           >
             <Plus size={16} />
             <span>New Memory</span>
@@ -168,7 +168,7 @@ export const MemoryView: React.FC = () => {
       </div>
 
       {/* SEARCH & CATEGORY FILTER BAR */}
-      <div className="space-y-3">
+      <div className="space-y-3 min-w-0 w-full">
         {/* Search Input */}
         <div className="relative">
           <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400/60" />
@@ -252,39 +252,39 @@ export const MemoryView: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 pb-6">
           {filteredMemories.map((m) => (
             <div
               key={m.id}
-              className={`p-5 rounded-2xl bg-gradient-to-b from-[#060e20]/90 to-[#040814]/90 border transition-all flex flex-col justify-between group ${
+              className={`min-w-0 p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-[#060e20]/90 to-[#040814]/90 border transition-all flex flex-col justify-between group ${
                 m.isPinned
                   ? 'border-cyan-400/60 shadow-[0_0_15px_rgba(0,240,255,0.12)]'
                   : 'border-cyan-500/20 hover:border-cyan-400/40'
               }`}
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 uppercase">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 uppercase truncate max-w-[65%]">
                     {m.category}
                   </span>
-                  <div className="flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 shrink-0">
                     <button
                       onClick={() => updateMemory({ ...m, isPinned: !m.isPinned })}
-                      className={`p-1 rounded hover:text-cyan-300 ${m.isPinned ? 'text-cyan-400' : 'text-slate-500'}`}
+                      className={`p-1.5 rounded hover:text-cyan-300 ${m.isPinned ? 'text-cyan-400' : 'text-slate-500'}`}
                       title={m.isPinned ? 'Unpin' : 'Pin to Top'}
                     >
                       <Pin size={14} />
                     </button>
                     <button
                       onClick={() => handleOpenEdit(m)}
-                      className="p-1 rounded text-slate-400 hover:text-cyan-300"
+                      className="p-1.5 rounded text-slate-400 hover:text-cyan-300"
                       title="Edit Memory"
                     >
                       <Edit2 size={14} />
                     </button>
                     <button
                       onClick={() => removeMemory(m.id)}
-                      className="p-1 rounded text-slate-400 hover:text-red-400"
+                      className="p-1.5 rounded text-slate-400 hover:text-red-400"
                       title="Delete Memory"
                     >
                       <Trash2 size={14} />
@@ -292,21 +292,21 @@ export const MemoryView: React.FC = () => {
                   </div>
                 </div>
 
-                <h3 className="font-mono text-base font-bold text-slate-100 group-hover:text-cyan-200 transition-colors">
+                <h3 className="font-mono text-base font-bold text-slate-100 group-hover:text-cyan-200 transition-colors break-words">
                   {m.title}
                 </h3>
 
-                <p className="text-xs text-slate-300 mt-2 font-sans leading-relaxed whitespace-pre-wrap">
+                <p className="text-xs text-slate-300 mt-2 font-sans leading-relaxed whitespace-pre-wrap break-words">
                   {m.content}
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-cyan-500/10 flex items-center justify-between text-[10px] font-mono text-slate-500">
-                <div className="flex items-center gap-1">
+              <div className="mt-4 pt-3 border-t border-cyan-500/10 flex items-center justify-between text-[10px] font-mono text-slate-500 gap-2">
+                <div className="flex items-center gap-1 shrink-0">
                   <Clock size={12} />
                   <span>{new Date(m.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                 </div>
-                <div className="text-cyan-400/60 uppercase">
+                <div className="text-cyan-400/60 uppercase truncate">
                   SRC: {m.source}
                 </div>
               </div>

@@ -87,15 +87,15 @@ export const ApkDownloadView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/20">
+    <div className="h-full w-full min-w-0 flex flex-col p-3.5 sm:p-6 lg:p-8 pb-8 space-y-5 max-w-7xl mx-auto overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-cyan-500/20">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
-        <div>
-          <div className="text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
-            <Smartphone size={14} className="text-cyan-400" />
-            <span>NATIVE COMPANION DISTRIBUTION // CHANNEL: ALPHA-PREVIEW</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b18]/80 border border-cyan-500/20">
+        <div className="min-w-0">
+          <div className="text-[11px] sm:text-xs font-mono text-cyan-400/70 tracking-widest uppercase flex items-center gap-2">
+            <Smartphone size={14} className="text-cyan-400 shrink-0" />
+            <span className="truncate">NATIVE COMPANION DISTRIBUTION // ALPHA</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-slate-100 mt-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-mono text-slate-100 mt-1">
             JARVIS APK Download Centre
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -105,7 +105,7 @@ export const ApkDownloadView: React.FC = () => {
 
         <button
           onClick={() => setManifestEditorOpen(true)}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 min-h-[42px] rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-xs font-mono transition-colors shrink-0"
           title="Configure Release Manifest parameters"
         >
           <Settings size={14} />
@@ -114,15 +114,15 @@ export const ApkDownloadView: React.FC = () => {
       </div>
 
       {/* MAIN APK RELEASE BANNER CARD */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#060e20] via-[#050b18] to-[#040814] border border-cyan-500/30 shadow-[0_0_40px_rgba(0,240,255,0.08)] flex flex-col lg:flex-row items-center justify-between gap-8">
-        <div className="flex items-center gap-6">
-          <div className="w-24 h-24 rounded-3xl bg-slate-950 border-2 border-cyan-400/60 flex items-center justify-center text-cyan-300 shadow-[0_0_30px_rgba(0,240,255,0.3)] shrink-0">
-            <Smartphone size={48} className="animate-pulse" />
+      <div className="p-5 sm:p-7 rounded-3xl bg-gradient-to-r from-[#060e20] via-[#050b18] to-[#040814] border border-cyan-500/30 shadow-[0_0_40px_rgba(0,240,255,0.08)] flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left min-w-0 w-full">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-slate-950 border-2 border-cyan-400/60 flex items-center justify-center text-cyan-300 shadow-[0_0_30px_rgba(0,240,255,0.3)] shrink-0">
+            <Smartphone size={42} className="animate-pulse" />
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-mono font-bold text-slate-100">
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+              <h2 className="text-xl sm:text-2xl font-mono font-bold text-slate-100">
                 JARVIS Companion OS
               </h2>
               <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
@@ -130,7 +130,7 @@ export const ApkDownloadView: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-400 font-mono">
-              Build Code: {manifest.versionCode} • Architecture: {manifest.architecture}
+              Build Code: {manifest.versionCode} • {manifest.architecture}
             </p>
             <p className="text-xs text-slate-300 font-sans mt-2 max-w-xl">
               Connects to the same Firebase project, authentication system, database schema, user identity, and memory records as this web application.
@@ -145,64 +145,64 @@ export const ApkDownloadView: React.FC = () => {
               href={manifest.downloadUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-mono font-bold tracking-wider text-sm transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center justify-center gap-3"
+              className="w-full sm:w-auto px-6 sm:px-8 py-4 min-h-[48px] rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-mono font-bold tracking-wider text-xs sm:text-sm transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center justify-center gap-2.5 text-center"
             >
-              <Download size={20} />
+              <Download size={18} className="shrink-0" />
               <span>DOWNLOAD JARVIS APK ({manifest.fileSize})</span>
             </a>
           ) : (
             <div className="w-full sm:w-auto flex flex-col items-center lg:items-end gap-2">
               <button
                 disabled
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900 border border-cyan-500/30 text-cyan-300/60 font-mono font-bold tracking-wider text-sm cursor-not-allowed flex items-center justify-center gap-3"
+                className="w-full sm:w-auto px-6 sm:px-8 py-4 min-h-[48px] rounded-xl bg-slate-900 border border-cyan-500/30 text-cyan-300/60 font-mono font-bold tracking-wider text-xs sm:text-sm cursor-not-allowed flex items-center justify-center gap-2.5 text-center"
               >
-                <Download size={20} />
+                <Download size={18} className="shrink-0" />
                 <span>DOWNLOAD JARVIS APK ({manifest.fileSize})</span>
               </button>
-              <div className="flex items-center gap-1.5 text-xs font-mono text-amber-400">
-                <AlertCircle size={14} />
+              <div className="flex items-center gap-1.5 text-xs font-mono text-amber-400 text-center">
+                <AlertCircle size={14} className="shrink-0" />
                 <span>Android application is under development.</span>
               </div>
             </div>
           )}
 
-          <span className="text-[10px] font-mono text-slate-500">
+          <span className="text-[10px] font-mono text-slate-500 text-center lg:text-right">
             SHA-256 Verified Release Pipeline • Spark ₹0 Budget Compliant
           </span>
         </div>
       </div>
 
       {/* TECHNICAL MANIFEST METADATA GRID */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs">
-        <div className="p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 font-mono text-xs">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20 min-w-0">
           <div className="text-slate-400 text-[10px]">MINIMUM ANDROID</div>
-          <div className="text-slate-200 font-bold mt-1">{manifest.minimumAndroidVersion}</div>
+          <div className="text-slate-200 font-bold mt-1 break-words">{manifest.minimumAndroidVersion}</div>
         </div>
-        <div className="p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20 min-w-0">
           <div className="text-slate-400 text-[10px]">TARGET SDK</div>
-          <div className="text-slate-200 font-bold mt-1">{manifest.targetAndroidVersion}</div>
+          <div className="text-slate-200 font-bold mt-1 break-words">{manifest.targetAndroidVersion}</div>
         </div>
-        <div className="p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20 min-w-0">
           <div className="text-slate-400 text-[10px]">PACKAGE SIZE</div>
           <div className="text-slate-200 font-bold mt-1">{manifest.fileSize}</div>
         </div>
-        <div className="p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-slate-950/60 border border-cyan-500/20 min-w-0">
           <div className="text-slate-400 text-[10px]">RELEASE DATE</div>
           <div className="text-slate-200 font-bold mt-1">{manifest.releaseDate}</div>
         </div>
       </div>
 
       {/* INTEGRITY CHECKSUM BAR */}
-      <div className="p-4 rounded-xl bg-[#050b18] border border-cyan-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
-        <div className="flex items-center gap-2 overflow-hidden">
+      <div className="p-4 rounded-xl bg-[#050b18] border border-cyan-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs min-w-0">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 min-w-0 flex-1">
           <span className="text-cyan-400/70 shrink-0">SHA-256 CHECKSUM:</span>
-          <span className="text-slate-300 truncate font-mono text-[11px] bg-slate-950 px-2 py-1 rounded border border-cyan-500/10">
+          <span className="text-slate-300 truncate font-mono text-[11px] bg-slate-950 px-2.5 py-1.5 rounded border border-cyan-500/10 min-w-0 block">
             {manifest.sha256}
           </span>
         </div>
         <button
           onClick={copySha}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] shrink-0 transition-colors"
+          className="flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-lg bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] shrink-0 transition-colors"
         >
           {copiedHash ? <CheckCircle2 size={12} className="text-emerald-400" /> : <Copy size={12} />}
           <span>{copiedHash ? 'Hash Copied!' : 'Copy Hash'}</span>
